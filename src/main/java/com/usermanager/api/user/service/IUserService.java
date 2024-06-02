@@ -1,7 +1,8 @@
 package com.usermanager.api.user.service;
 
 import com.usermanager.api.user.dto.RCreateUserDto;
+import com.usermanager.api.user.model.UserModel;
 
 public interface IUserService {
-    void create(RCreateUserDto createUserDto);
+    UserModel create(RCreateUserDto createUserDto);
 }

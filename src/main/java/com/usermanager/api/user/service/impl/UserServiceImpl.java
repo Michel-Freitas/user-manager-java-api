@@ -16,7 +16,7 @@ public class UserServiceImpl implements IUserService {
 
 
     @Override
-    public void create(RCreateUserDto createUserDto) {
+    public UserModel create(RCreateUserDto createUserDto) {
         if (this.userRepository.existsByCpf(createUserDto.cpf())) {
             throw new CpfAlreadyUsedException();
         }
@@ -27,6 +27,6 @@ public class UserServiceImpl implements IUserService {
                 createUserDto.dateBirth(),
                 createUserDto.role());
 
-        this.userRepository.save(user);
+        return this.userRepository.save(user);
     }
 }
