@@ -1,10 +1,13 @@
 package com.usermanager.api.user.service.impl;
 
-import com.usermanager.api.user.dto.RCreateUserDto;
-import com.usermanager.api.user.enums.EUserRole;
-import com.usermanager.api.user.enums.EUserStatus;
-import com.usermanager.api.user.model.UserModel;
-import com.usermanager.api.user.repository.IUserRepository;
+import com.usermanager.api.module.address.dto.RCreateAddressDto;
+import com.usermanager.api.module.address.model.AddressModel;
+import com.usermanager.api.module.user.dto.RCreateUserDto;
+import com.usermanager.api.module.user.enums.EUserRole;
+import com.usermanager.api.module.user.enums.EUserStatus;
+import com.usermanager.api.module.user.model.UserModel;
+import com.usermanager.api.module.user.repository.IUserRepository;
+import com.usermanager.api.module.user.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,8 +43,16 @@ class UserServiceImplTest {
         String cpf = "12345678901";
         EUserRole role = EUserRole.COMMON;
 
-        this.userDto = new RCreateUserDto(name, cpf, new Date(), role);
-        UserModel user = new UserModel(1L, name, cpf, new Date(), role, EUserStatus.ACTIVE);
+        RCreateAddressDto addressDto = new RCreateAddressDto(
+                "A",
+                1L,
+                "F",
+                "B",
+                "C",
+                "12345678",
+                "");
+        this.userDto = new RCreateUserDto(name, cpf, new Date(), role, addressDto);
+        UserModel user = new UserModel(1L, name, cpf, new Date(), role, EUserStatus.ACTIVE, new AddressModel());
         Mockito.lenient().when(this.userRepository.save(any(UserModel.class))).thenReturn(user);
     }
 

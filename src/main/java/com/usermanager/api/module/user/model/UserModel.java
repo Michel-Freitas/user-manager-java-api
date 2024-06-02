@@ -1,7 +1,8 @@
-package com.usermanager.api.user.model;
+package com.usermanager.api.module.user.model;
 
-import com.usermanager.api.user.enums.EUserRole;
-import com.usermanager.api.user.enums.EUserStatus;
+import com.usermanager.api.module.address.model.AddressModel;
+import com.usermanager.api.module.user.enums.EUserRole;
+import com.usermanager.api.module.user.enums.EUserStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,16 +34,20 @@ public class UserModel {
     @Enumerated(EnumType.STRING)
     private EUserRole role;
 
-
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EUserStatus status;
 
-    public UserModel(String name, String cpf, Date dateBirth, EUserRole role) {
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private AddressModel address;
+
+    public UserModel(String name, String cpf, Date dateBirth, EUserRole role, AddressModel address) {
         this.name = name;
         this.cpf = cpf;
         this.dateBirth = dateBirth;
         this.role = role;
         this.status = EUserStatus.ACTIVE;
+        this.address = address;
     }
 }

@@ -1,7 +1,7 @@
 package com.usermanager.api.infra.handler;
 
 import com.usermanager.api.infra.response.ErrorResponse;
-import com.usermanager.api.user.exception.CpfAlreadyUsedException;
+import com.usermanager.api.module.user.exception.CpfAlreadyUsedException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

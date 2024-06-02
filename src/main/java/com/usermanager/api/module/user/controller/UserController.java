@@ -1,7 +1,7 @@
-package com.usermanager.api.user.controller;
+package com.usermanager.api.module.user.controller;
 
-import com.usermanager.api.user.dto.RCreateUserDto;
-import com.usermanager.api.user.service.IUserService;
+import com.usermanager.api.module.user.dto.RCreateUserDto;
+import com.usermanager.api.module.user.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

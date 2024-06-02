@@ -1,4 +1,4 @@
-package com.usermanager.api.user.enums;
+package com.usermanager.api.module.user.enums;
 
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
-package com.usermanager.api.user.repository;
+package com.usermanager.api.module.user.repository;
 
-import com.usermanager.api.user.model.UserModel;
+import com.usermanager.api.module.user.model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
