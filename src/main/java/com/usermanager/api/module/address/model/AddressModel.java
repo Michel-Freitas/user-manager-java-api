@@ -37,7 +37,7 @@ public class AddressModel {
     @Column(name= "zip_code", nullable = false)
     private String zipCode;
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
     private UserModel user;
 
     public AddressModel(

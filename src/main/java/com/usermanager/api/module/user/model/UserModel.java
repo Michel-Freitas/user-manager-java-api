@@ -38,7 +38,7 @@ public class UserModel {
     @Enumerated(EnumType.STRING)
     private EUserStatus status;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private AddressModel address;
 
