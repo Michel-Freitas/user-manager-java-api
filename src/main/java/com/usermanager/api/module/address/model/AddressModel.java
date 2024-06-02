@@ -37,7 +37,7 @@ public class AddressModel {
     @Column(name= "zip_code", nullable = false)
     private String zipCode;
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
     private UserModel user;
 
     public AddressModel(
@@ -48,25 +48,6 @@ public class AddressModel {
             String neighborhood,
             String state,
             String zipCode) {
-        this.street = street;
-        this.number = number;
-        this.complement = complement;
-        this.city = city;
-        this.neighborhood = neighborhood;
-        this.state = state;
-        this.zipCode = zipCode;
-    }
-
-    public AddressModel(
-            Long id,
-            String street,
-            Long number,
-            String complement,
-            String city,
-            String neighborhood,
-            String state,
-            String zipCode) {
-        this.id = id;
         this.street = street;
         this.number = number;
         this.complement = complement;

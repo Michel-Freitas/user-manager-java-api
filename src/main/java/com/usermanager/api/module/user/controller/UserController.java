@@ -22,9 +22,9 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<String> update(@Valid @RequestBody RUpdateUserDto updateUserDto) {
-        this.userService.update(updateUserDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PutMapping("/{id}")
+    public ResponseEntity<String> update(@PathVariable Long id, @Valid @RequestBody RUpdateUserDto updateUserDto) {
+        this.userService.update(id, updateUserDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

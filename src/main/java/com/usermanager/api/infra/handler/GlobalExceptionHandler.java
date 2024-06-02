@@ -2,6 +2,8 @@ package com.usermanager.api.infra.handler;
 
 import com.usermanager.api.infra.response.ErrorResponse;
 import com.usermanager.api.module.user.exception.CpfAlreadyUsedException;
+import com.usermanager.api.module.user.exception.DifferentUserIdsException;
+import com.usermanager.api.module.user.exception.UserNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +27,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(CpfAlreadyUsedException.class)
-    public ResponseEntity<ErrorResponse> userExceptions(CpfAlreadyUsedException ex) {
+    @ExceptionHandler({
+            CpfAlreadyUsedException.class,
+            DifferentUserIdsException.class,
+            UserNotFoundException.class
+    })
+    public ResponseEntity<ErrorResponse> userExceptions(RuntimeException ex) {
         ErrorResponse errorResponse = new ErrorResponse(
                 Instant.now(),
                 HttpStatus.BAD_REQUEST.value(),

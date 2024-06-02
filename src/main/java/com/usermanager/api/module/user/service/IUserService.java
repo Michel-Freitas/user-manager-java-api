@@ -6,5 +6,5 @@ import com.usermanager.api.module.user.dto.RCreateUserDto;
 
 public interface IUserService {
     UserModel create(RCreateUserDto createUserDto);
-    UserModel update(RUpdateUserDto updateUserDto);
+    UserModel update(Long userId, RUpdateUserDto updateUserDto);
 }
