@@ -2,6 +2,7 @@ package com.usermanager.api.module.user.service.impl;
 
 import com.usermanager.api.module.address.model.AddressModel;
 import com.usermanager.api.module.user.dto.RCreateUserDto;
+import com.usermanager.api.module.user.dto.RUpdateUserDto;
 import com.usermanager.api.module.user.exception.CpfAlreadyUsedException;
 import com.usermanager.api.module.user.model.UserModel;
 import com.usermanager.api.module.user.repository.IUserRepository;
@@ -37,6 +38,32 @@ public class UserServiceImpl implements IUserService {
                 createUserDto.cpf(),
                 createUserDto.dateBirth(),
                 createUserDto.role(),
+                address);
+
+        return this.userRepository.save(user);
+    }
+
+    @Override
+    public UserModel update(RUpdateUserDto updateUserDto) {
+
+        AddressModel address = new AddressModel(
+                updateUserDto.address().id(),
+                updateUserDto.address().street(),
+                updateUserDto.address().number(),
+                updateUserDto.address().complement(),
+                updateUserDto.address().city(),
+                updateUserDto.address().neighborhood(),
+                updateUserDto.address().state(),
+                updateUserDto.address().zipCode()
+        );
+
+        UserModel user = new UserModel(
+                updateUserDto.id(),
+                updateUserDto.name(),
+                updateUserDto.cpf(),
+                updateUserDto.dateBirth(),
+                updateUserDto.role(),
+                updateUserDto.status(),
                 address);
 
         return this.userRepository.save(user);
