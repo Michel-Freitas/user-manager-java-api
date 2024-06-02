@@ -2,10 +2,10 @@ package com.usermanager.api.user.controller;
 
 import com.usermanager.api.user.dto.RCreateUserDto;
 import com.usermanager.api.user.service.IUserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +19,8 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping
-    public ResponseEntity<String> create(@Validated() @RequestBody() RCreateUserDto createUserDto) {
+    public ResponseEntity<String> create(@Valid @RequestBody RCreateUserDto createUserDto) {
         this.userService.create(createUserDto);
-        return new ResponseEntity<>("Ok", HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

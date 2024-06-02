@@ -17,7 +17,7 @@ public record RCreateUserDto(
         @Size(min = 11, max = 11, message = "O CPF precisa ter 11 caracteres.")
         String cpf,
 
-        @NotNull(message = "Nome Obrigatorio.")
+        @NotNull(message = "Data de Nasimento Obrigatoria.")
         Date dateBirth,
 
         EUserRole role) {

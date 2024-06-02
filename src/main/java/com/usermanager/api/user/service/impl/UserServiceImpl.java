@@ -1,6 +1,7 @@
 package com.usermanager.api.user.service.impl;
 
 import com.usermanager.api.user.dto.RCreateUserDto;
+import com.usermanager.api.user.exception.CpfAlreadyUsedException;
 import com.usermanager.api.user.model.UserModel;
 import com.usermanager.api.user.repository.IUserRepository;
 import com.usermanager.api.user.service.IUserService;
@@ -16,6 +17,10 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void create(RCreateUserDto createUserDto) {
+        if (this.userRepository.existsByCpf(createUserDto.cpf())) {
+            throw new CpfAlreadyUsedException();
+        }
+
         UserModel user = new UserModel(
                 createUserDto.name(),
                 createUserDto.cpf(),
