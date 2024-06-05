@@ -13,4 +13,5 @@ public interface IUserService {
     UserModel update(Long userId, RUpdateUserDto updateUserDto);
     List<RUserDto> listAll();
     RUserDetailsDto details(Long id);
+    void delete(Long id);
 }

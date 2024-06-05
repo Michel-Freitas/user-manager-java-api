@@ -50,4 +50,12 @@ public class UserModel {
         this.status = EUserStatus.ACTIVE;
         this.address = address;
     }
+
+    public void changeStatus() {
+        if (this.status == EUserStatus.ACTIVE) {
+            this.setStatus(EUserStatus.REMOVED);
+        } else {
+            this.setStatus(EUserStatus.ACTIVE);
+        }
+    }
 }
