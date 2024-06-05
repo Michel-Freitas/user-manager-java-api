@@ -136,6 +136,22 @@ class UserServiceImplTest {
         assertEquals(result.getMessage(), "Usuário Não Encontrado.");
     }
 
+    @Test
+    @DisplayName("Deleting user that does not exist.")
+    void userDeleteFailedWithIdNotFound() {
+        // Arrange
+        Long id = 1L;
+        when(this.userRepository.findById(any(Long.class))).thenReturn(Optional.empty());
+
+        // Act
+        Exception result = Assertions.assertThrows(Exception.class, () -> {
+            this.userService.delete(id);
+        });
+
+        // Assert
+        assertEquals(result.getMessage(), "Usuário Não Encontrado.");
+    }
+
     private RUpdateUserDto updateUserDto() {
         Long id = 1L;
         String name = "Michel Freitas";

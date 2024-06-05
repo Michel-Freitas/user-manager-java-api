@@ -6,6 +6,7 @@ import com.usermanager.api.module.user.dto.RCreateUserDto;
 import com.usermanager.api.module.user.dto.RUpdateUserDto;
 import com.usermanager.api.module.user.dto.RUserDetailsDto;
 import com.usermanager.api.module.user.dto.RUserDto;
+import com.usermanager.api.module.user.enums.EUserStatus;
 import com.usermanager.api.module.user.exception.CpfAlreadyUsedException;
 import com.usermanager.api.module.user.exception.DifferentUserIdsException;
 import com.usermanager.api.module.user.exception.UserNotFoundException;
@@ -15,12 +16,10 @@ import com.usermanager.api.module.user.service.IUserService;
 import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -118,5 +117,14 @@ public class UserServiceImpl implements IUserService {
                 user.getStatus(),
                 addressDto
         );
+    }
+
+    @Override
+    public void delete(Long id) {
+        UserModel user = this.userRepository.findById(id)
+                .orElseThrow(UserNotFoundException::new);
+
+        user.changeStatus();
+        this.userRepository.save(user);
     }
 }
