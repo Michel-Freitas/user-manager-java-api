@@ -54,8 +54,8 @@ class UserServiceImplTest {
                 "C",
                 "12345678",
                 "");
-        this.userDto = new RCreateUserDto(name, cpf, new Date(), role, addressDto);
-        this.user = new UserModel(1L, name, cpf, new Date(), role, EUserStatus.ACTIVE, new AddressModel());
+        this.userDto = new RCreateUserDto(name, "123456", cpf, new Date(), role, addressDto);
+        this.user = new UserModel(1L, name, "123456", cpf, new Date(), role, EUserStatus.ACTIVE, new AddressModel());
         Mockito.lenient().when(this.userRepository.save(any(UserModel.class))).thenReturn(user);
     }
 

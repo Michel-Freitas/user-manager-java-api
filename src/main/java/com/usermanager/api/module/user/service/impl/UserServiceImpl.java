@@ -6,7 +6,6 @@ import com.usermanager.api.module.user.dto.RCreateUserDto;
 import com.usermanager.api.module.user.dto.RUpdateUserDto;
 import com.usermanager.api.module.user.dto.RUserDetailsDto;
 import com.usermanager.api.module.user.dto.RUserDto;
-import com.usermanager.api.module.user.enums.EUserStatus;
 import com.usermanager.api.module.user.exception.CpfAlreadyUsedException;
 import com.usermanager.api.module.user.exception.DifferentUserIdsException;
 import com.usermanager.api.module.user.exception.UserNotFoundException;
@@ -16,7 +15,7 @@ import com.usermanager.api.module.user.service.IUserService;
 import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -36,6 +35,8 @@ public class UserServiceImpl implements IUserService {
             throw new CpfAlreadyUsedException();
         }
 
+        String encryptedPassword = new BCryptPasswordEncoder().encode(createUserDto.password());
+
         AddressModel address = new AddressModel(
                 createUserDto.address().street(),
                 createUserDto.address().number(),
@@ -48,6 +49,7 @@ public class UserServiceImpl implements IUserService {
 
         UserModel user = new UserModel(
                 createUserDto.name(),
+                encryptedPassword,
                 createUserDto.cpf(),
                 createUserDto.dateBirth(),
                 createUserDto.role(),
