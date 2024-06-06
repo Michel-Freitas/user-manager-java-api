@@ -2,6 +2,8 @@ package com.usermanager.api.module.user.service.impl;
 
 import com.usermanager.api.module.address.dto.RAddressDto;
 import com.usermanager.api.module.address.model.AddressModel;
+import com.usermanager.api.module.audit.enums.ETypeAction;
+import com.usermanager.api.module.audit.service.IAuditService;
 import com.usermanager.api.module.user.dto.RCreateUserDto;
 import com.usermanager.api.module.user.dto.RUpdateUserDto;
 import com.usermanager.api.module.user.dto.RUserDetailsDto;
@@ -29,6 +31,9 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private EntityManager entityManager;
 
+    @Autowired
+    private IAuditService auditService;
+
     @Override
     public UserModel create(RCreateUserDto createUserDto) {
         if (this.userRepository.existsByCpf(createUserDto.cpf())) {
@@ -55,7 +60,9 @@ public class UserServiceImpl implements IUserService {
                 createUserDto.role(),
                 address);
 
-        return this.userRepository.save(user);
+        this.userRepository.save(user);
+        this.auditService.logAction(user, ETypeAction.CREATE);
+        return user;
     }
 
     @Override
@@ -71,7 +78,9 @@ public class UserServiceImpl implements IUserService {
         user.setRole(updateUserDto.role());
         user.setStatus(updateUserDto.status());
 
-        return this.userRepository.save(user);
+        this.auditService.logAction(user, ETypeAction.UPDATE);
+        this.userRepository.save(user);
+        return user;
     }
 
     @Override
@@ -127,6 +136,8 @@ public class UserServiceImpl implements IUserService {
                 .orElseThrow(UserNotFoundException::new);
 
         user.changeStatus();
+
         this.userRepository.save(user);
+        this.auditService.logAction(user, ETypeAction.DELETE);
     }
 }

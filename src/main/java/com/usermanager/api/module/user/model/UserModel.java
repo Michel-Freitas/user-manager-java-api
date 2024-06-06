@@ -62,4 +62,15 @@ public class UserModel {
             this.setStatus(EUserStatus.ACTIVE);
         }
     }
+
+    public String toString() {
+        return "{id:" + this.getId()
+                + ", name: " + this.getName()
+                + ", cpf: " + this.getCpf()
+                + ", dateBirth: " + this.getDateBirth()
+                + ", role: " + this.getRole()
+                + ", status: " + this.getStatus()
+                + "}";
+
+    }
 }

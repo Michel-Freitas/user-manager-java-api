@@ -16,6 +16,10 @@ public class UserAuthModel implements  UserDetails{
         this.user = user;
     }
 
+    public UserModel getUser() {
+        return this.user;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         var roleAdmin = new SimpleGrantedAuthority("ROLE_ADMIN");
