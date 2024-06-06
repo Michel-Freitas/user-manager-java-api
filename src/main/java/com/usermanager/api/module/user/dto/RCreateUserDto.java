@@ -14,6 +14,10 @@ public record RCreateUserDto(
         @Length(min = 3, message = "Nome precisa ser no minimo 3 caracteres.")
         String name,
 
+        @NotEmpty(message = "Senha Obrigatória.")
+        @Length(min = 6, message = "Senha precisa ter no mínimo 6 caracteres.")
+        String password,
+
         @NotEmpty(message = "CPF Obrigatório.")
         @Size(min = 11, max = 11, message = "O CPF precisa ter 11 caracteres.")
         String cpf,

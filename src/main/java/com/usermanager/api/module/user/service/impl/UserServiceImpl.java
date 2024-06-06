@@ -2,11 +2,12 @@ package com.usermanager.api.module.user.service.impl;
 
 import com.usermanager.api.module.address.dto.RAddressDto;
 import com.usermanager.api.module.address.model.AddressModel;
+import com.usermanager.api.module.audit.enums.ETypeAction;
+import com.usermanager.api.module.audit.service.IAuditService;
 import com.usermanager.api.module.user.dto.RCreateUserDto;
 import com.usermanager.api.module.user.dto.RUpdateUserDto;
 import com.usermanager.api.module.user.dto.RUserDetailsDto;
 import com.usermanager.api.module.user.dto.RUserDto;
-import com.usermanager.api.module.user.enums.EUserStatus;
 import com.usermanager.api.module.user.exception.CpfAlreadyUsedException;
 import com.usermanager.api.module.user.exception.DifferentUserIdsException;
 import com.usermanager.api.module.user.exception.UserNotFoundException;
@@ -16,7 +17,7 @@ import com.usermanager.api.module.user.service.IUserService;
 import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -30,11 +31,16 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private EntityManager entityManager;
 
+    @Autowired
+    private IAuditService auditService;
+
     @Override
     public UserModel create(RCreateUserDto createUserDto) {
         if (this.userRepository.existsByCpf(createUserDto.cpf())) {
             throw new CpfAlreadyUsedException();
         }
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(createUserDto.password());
 
         AddressModel address = new AddressModel(
                 createUserDto.address().street(),
@@ -48,12 +54,15 @@ public class UserServiceImpl implements IUserService {
 
         UserModel user = new UserModel(
                 createUserDto.name(),
+                encryptedPassword,
                 createUserDto.cpf(),
                 createUserDto.dateBirth(),
                 createUserDto.role(),
                 address);
 
-        return this.userRepository.save(user);
+        this.userRepository.save(user);
+        this.auditService.logAction(user, ETypeAction.CREATE);
+        return user;
     }
 
     @Override
@@ -69,7 +78,9 @@ public class UserServiceImpl implements IUserService {
         user.setRole(updateUserDto.role());
         user.setStatus(updateUserDto.status());
 
-        return this.userRepository.save(user);
+        this.auditService.logAction(user, ETypeAction.UPDATE);
+        this.userRepository.save(user);
+        return user;
     }
 
     @Override
@@ -125,6 +136,8 @@ public class UserServiceImpl implements IUserService {
                 .orElseThrow(UserNotFoundException::new);
 
         user.changeStatus();
+
         this.userRepository.save(user);
+        this.auditService.logAction(user, ETypeAction.DELETE);
     }
 }

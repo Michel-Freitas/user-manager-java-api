@@ -24,6 +24,9 @@ public class UserModel {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String password;
+
     @Column(nullable = false, unique = true)
     private String cpf;
 
@@ -42,13 +45,14 @@ public class UserModel {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private AddressModel address;
 
-    public UserModel(String name, String cpf, Date dateBirth, EUserRole role, AddressModel address) {
+    public UserModel(String name, String password, String cpf, Date dateBirth, EUserRole role, AddressModel address) {
         this.name = name;
         this.cpf = cpf;
         this.dateBirth = dateBirth;
         this.role = role;
         this.status = EUserStatus.ACTIVE;
         this.address = address;
+        this.password = password;
     }
 
     public void changeStatus() {
@@ -57,5 +61,16 @@ public class UserModel {
         } else {
             this.setStatus(EUserStatus.ACTIVE);
         }
+    }
+
+    public String toString() {
+        return "{id:" + this.getId()
+                + ", name: " + this.getName()
+                + ", cpf: " + this.getCpf()
+                + ", dateBirth: " + this.getDateBirth()
+                + ", role: " + this.getRole()
+                + ", status: " + this.getStatus()
+                + "}";
+
     }
 }
